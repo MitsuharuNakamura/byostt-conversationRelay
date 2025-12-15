@@ -7,7 +7,6 @@ from typing import Dict, Optional
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import Response
 from twilio.twiml.voice_response import VoiceResponse, Connect, Start
-from dotenv import load_dotenv
 
 from amivoice_client import AmiVoiceClient
 from llm_client import LLMClient
