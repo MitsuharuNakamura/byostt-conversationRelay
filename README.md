@@ -1,4 +1,4 @@
-# byotts-cr-test
+# AmiVoice STT on Conversation Relay with Gemini
 
 Twilio Media Streams、AmiVoice、Google Gemini、および Twilio Conversation Relay を組み合わせた、リアルタイム日本語音声対話ボットのデモ実装です。
 ConversatoinRelayを単独で利用すると、音声認識エンジンとしてGoogleとDeepgramのみが利用可能ですが、AmiVoiceと組み合わせることで、日本語のより優れた音声認識を可能にします。
@@ -79,7 +79,3 @@ ConversatoinRelayを単独で利用すると、音声認識エンジンとして
 *   `amivoice_client.py`: AmiVoice WebSocket API との通信クライアント。
 *   `llm_client.py`: Google Gemini API とのチャットセッション管理クライアント。
 *   `config.py`: アプリケーション設定の一元管理 (Pydantic利用)。
-
-## ライセンス
-
-[License Name]
