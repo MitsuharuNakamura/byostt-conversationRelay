@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+websockets
+twilio
+google-genai
+python-dotenv
+pydantic-settings
