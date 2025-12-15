@@ -18,7 +18,9 @@ class AmiVoiceClient:
         self.state = None # audioopの状態保持用 (現在は使用していません)
 
     async def connect(self):
-        """Websocket接続を確立し、初期コマンドを送信します"""
+        """
+        Websocket接続を確立し、初期コマンドを送信します
+        """
         print(f"Connecting to AmiVoice...")
         self.ws = await websockets.connect(self.url)
         
@@ -51,7 +53,9 @@ class AmiVoiceClient:
             print(f"Error sending audio to AmiVoice: {e}")
 
     async def receive_loop(self):
-        """AmiVoiceからのメッセージ受信ループ"""
+        """
+        AmiVoiceからのメッセージ受信ループ
+        """
         if not self.ws:
             return
             
@@ -100,7 +104,9 @@ class AmiVoiceClient:
             print(f"AmiVoice receive error: {e}")
             
     async def close(self):
-        """接続を切断し、終了コマンドを送ります"""
+        """
+        接続を切断し、終了コマンドを送ります
+        """
         if self.ws:
             try:
                 await self.ws.send('e') # 終了コマンド
