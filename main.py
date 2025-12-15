@@ -37,9 +37,11 @@ class Session:
         await self.amivoice.connect()
 
     async def on_amivoice_message(self, data: dict):
-        # AmiVoiceからのメッセージ受信時のコールバック
-        # 'A' (Final Result) イベントのみを拾ってLLMに送信します
-        # 'A' = Final Result (確定), 'U' = Intermediate Result (途中経過)
+        """
+        AmiVoiceからのメッセージ受信時のコールバック
+        'A' (Final Result) イベントのみを拾ってLLMに送信します
+        'A' = Final Result (確定), 'U' = Intermediate Result (途中経過)
+        """
         event_code = data.get('code', '')
         text = data.get('text', '')
 
@@ -63,7 +65,9 @@ class Session:
         asyncio.create_task(self.trigger_response(text))
 
     async def trigger_response(self, user_text: str):
-        # LLMに応答生成を依頼し、結果をConversation Relay経由で音声合成させます
+        """
+        LLMに応答生成を依頼し、結果をConversation Relay経由で音声合成させます
+        """
         if not self.relay_ws:
             print("[System] No Relay WebSocket to send response.")
             return
@@ -89,7 +93,9 @@ class Session:
             print(f"[Relay] Send Error: {e}")
 
     async def close(self):
-        """セッション終了時のクリーンアップ"""
+        """
+        セッション終了時のクリーンアップ
+        """
         self.call_active = False
         if self.amivoice:
             await self.amivoice.close()
@@ -101,9 +107,11 @@ class Session:
 
 @app.post("/voice")
 async def voice(request: Request):
-    # Twilioからの着信リクエストを受け取るエンドポイント (Webhook)
-    # TwiML (XML) を返却し、MediaStreamとConversationRelayを開始させます
-    # ngrok経由の場合、X-Forwarded-Hostを優先してホスト名を取得
+    """
+    Twilioからの着信リクエストを受け取るエンドポイント (Webhook)
+    TwiML (XML) を返却し、MediaStreamとConversationRelayを開始させます
+    ngrok経由の場合、X-Forwarded-Hostを優先してホスト名を取得
+    """
     host = request.headers.get("x-forwarded-host") or request.headers.get("host")
     
     # セッションIDを生成し、WebSocket接続を紐付けるために使用
@@ -227,8 +235,10 @@ async def websocket_stream(websocket: WebSocket):
 
 @app.websocket("/relay")
 async def websocket_relay(websocket: WebSocket):
-    # Conversation Relay用のWebSocketエンドポイント
-    # LLMからの応答テキストをTTS用に送信したり、Twilioからのイベントを受信します
+    """
+    Conversation Relay用のWebSocketエンドポイント
+    LLMからの応答テキストをTTS用に送信したり、Twilioからのイベントを受信します
+    """
     await websocket.accept()
     session_id = websocket.query_params.get("session_id")
     session = sessions.get(session_id)
